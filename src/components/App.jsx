@@ -4,20 +4,27 @@ import Footer from "./Footer";
 import Note from "./Note";
 import CreateArea from "./CreateArea";
 
+function generateNoteId() {
+  return Date.now() + Math.random();
+}
+
 function App() {
   const [notes, setNotes] = useState([]);
 
   function addNote(newNote) {
-    setNotes(prevNotes => {
-      return [...prevNotes, newNote];
+    const noteWithId = {
+      ...newNote,
+      id: newNote.id || generateNoteId(),
+    };
+
+    setNotes((prevNotes) => {
+      return [...prevNotes, noteWithId];
     });
   }
 
   function deleteNote(id) {
-    setNotes(prevNotes => {
-      return prevNotes.filter((noteItem, index) => {
-        return index !== id;
-      });
+    setNotes((prevNotes) => {
+      return prevNotes.filter((noteItem) => noteItem.id !== id);
     });
   }
 
@@ -25,11 +32,11 @@ function App() {
     <div>
       <Header />
       <CreateArea onAdd={addNote} />
-      {notes.map((noteItem, index) => {
+      {notes.map((noteItem) => {
         return (
           <Note
-            key={index}
-            id={index}
+            key={noteItem.id}
+            id={noteItem.id}
             title={noteItem.title}
             content={noteItem.content}
             onDelete={deleteNote}
