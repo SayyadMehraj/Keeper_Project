@@ -20,4 +20,14 @@ async function addNote(req, res) {
     })
 }
 
-export { addNote }
+async function getNotes(req, res) {
+    
+    const notes = await Note.find()
+
+    res.status(200).json({
+        message: "All notes are fetched",
+        notes
+    })
+}
+
+export { addNote, getNotes }
