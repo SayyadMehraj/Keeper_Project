@@ -68,4 +68,37 @@ async function deleteNote(req, res) {
     })
 }
 
-export { addNote, getNotes, deleteNote }
+/**
+ * @name modifyNote
+ * @description Modifiying the title or content in the note
+ * @access Private
+ */
+async function modifyNote(req, res) {
+
+    const { id } = req.params
+
+    let updatedNote = null
+
+    try {
+        updatedNote = await Note.findByIdAndUpdate(id, req.body, { returnDocument: "after" })
+    } catch (error) {
+        //If there is no such note exists
+        return res.status(400).json({
+            message: "Bad Request"
+        })
+    }
+
+    //If the id is given right but that id doesn't exist in the database
+    if (updatedNote === null) {
+        return res.status(404).json({
+            message: "Cannot find the note"
+        })
+    }
+
+    res.status(200).json({
+        message: "Note is modified",
+        updatedNote
+    })
+}
+
+export { addNote, getNotes, deleteNote, modifyNote }

@@ -1,5 +1,5 @@
 import express from "express";
-import { addNote, getNotes, deleteNote } from "../controllers/note.controller.js";
+import { addNote, getNotes, deleteNote, modifyNote } from "../controllers/note.controller.js";
 
 const noteRouter = express.Router();
 
@@ -23,5 +23,12 @@ noteRouter.get("/", getNotes)
  * @access Private
  */
 noteRouter.delete("/:id", deleteNote)
+
+/**
+ * @route /api/notes/:id
+ * @description Modifies the note
+ * @access Private
+ */
+noteRouter.patch("/:id", modifyNote)
 
 export default noteRouter
